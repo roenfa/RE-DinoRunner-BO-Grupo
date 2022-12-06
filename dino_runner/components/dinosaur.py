@@ -6,12 +6,13 @@ from dino_runner.utils.constants import RUNNING, DEFAULT_TYPE, DUCKING, JUMPING
 class Dinosaur(Sprite):
     X_POS = 80
     Y_POS = 300
+    JUMP_VEL = 8.5
 
     def __init__(self):
         self.dino_run = {DEFAULT_TYPE: RUNNING}
         self.dino_duck = {DEFAULT_TYPE: DUCKING}
         self.dino_jump = {DEFAULT_TYPE: JUMPING}
-
+        
         self.image = self.dino_run[DEFAULT_TYPE][0]
         self.dino_rect = self.image.get_rect()
         self.dino_rect.x = self.X_POS
@@ -20,6 +21,7 @@ class Dinosaur(Sprite):
         self.running = True
         self.ducking = False
         self.jumping = False
+        self.jump_vel = self.JUMP_VEL
 
     def update(self, input_user):
         if self.running:
@@ -62,7 +64,15 @@ class Dinosaur(Sprite):
         self.steps += 1
 
     def jump(self):
-        print("JUMPING!!!")
+        # self.image = self.dino_jump[self.type]
+        self.image = JUMPING
+        if self.jumping:
+            self.dino_rect.y -= self.jump_vel * 4
+            self.jump_vel -= 0.8
+        if self.jump_vel < -self.JUMP_VEL:
+            self.dino_rect.y = self.Y_POS
+            self.jumping = False
+            self.jump_vel = self.JUMP_VEL
 
     def draw(self, screen):
         screen.blit(self.image, (self.dino_rect.x, self.dino_rect.y))
