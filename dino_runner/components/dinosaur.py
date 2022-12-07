@@ -23,6 +23,8 @@ class Dinosaur(Sprite):
         self.jumping = False
         self.jump_vel = self.JUMP_VEL
 
+        self.has_lives = True
+
     def update(self, input_user):
         if self.running:
             self.run()
